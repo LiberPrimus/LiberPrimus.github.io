@@ -10,7 +10,7 @@ window.liberPrimus = {
 const runes = ['ᚠ', 'ᚢ', 'ᚦ', 'ᚩ', 'ᚱ', 'ᚳ', 'ᚷ', 'ᚹ', 'ᚻ', 'ᚾ', 'ᛁ', 'ᛄ', 'ᛇ', 'ᛈ', 'ᛉ', 'ᛋ', 'ᛏ', 'ᛒ', 'ᛖ', 'ᛗ', 'ᛚ', 'ᛝ', 'ᛟ', 'ᛞ', 'ᚪ', 'ᚫ', 'ᚣ', 'ᛡ', 'ᛠ']
 const ascii = [5792, 5794, 5798, 5801, 5809, 5811, 5815, 5817, 5819, 5822, 5825, 5828, 5831, 5832, 5833, 5835, 5839, 5842, 5846, 5847, 5850, 5853, 5855, 5854, 5802, 5803, 5795, 5857, 5856]
 const values = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]
-const letters = ['F', 'V', 'TH', 'O', 'R', 'C', 'G', 'W', 'H', 'N', 'I', 'J', 'EO', 'P', 'X', 'S', 'T', 'B', 'E', 'M', 'L', 'NG', 'OE', 'D', 'A', 'AE', 'Y', 'IO', 'EA']
+const letters = ['F', 'V', 'TH', 'O', 'R', 'C', 'G', 'W', 'H', 'N', 'I', 'J', 'EO', 'P', 'X', 'S', 'T', 'B', 'E', 'M', 'L', 'ING', 'OE', 'D', 'A', 'AE', 'Y', 'IO', 'EA']
 
 window.onload = () => {
     window.doFindPattern = true;
@@ -164,34 +164,34 @@ window.sourceNumChanged = () => {
 }
 
 window.runesToText = (message) => {
-    if (window.removeLineBreaks) message = message.replace(/\n/g, '');
-    let asciiMessage = "",
-        letterMessage = "";
+    let asciiMessage = [],
+        letterMessage = [];
 
     for (let i = 0; i < message.length; i++) {
         let used = false;
-        asciiMessage += message[i].charCodeAt(0);
+        asciiMessage.push(message[i].charCodeAt(0));
 
         for (let j = 0; j < ascii.length; j++) {
             if (asciiMessage[i] === ascii[j]) {
-                letterMessage += letters[j];
+                letterMessage.push(letters[j]);
                 used = true;
             }
         }
 
         if (!used)
-            letterMessage += message[i];
+            letterMessage.push(message[i]);
     }
 
     if (window.doFindPattern) {
+        const mess = letterMessage.join('').replace(/\n/g, '');
         window.testForPattern(
             {
                 len: parseInt(document.querySelector('#patternLen').value),
                 repeatPos: document.querySelector('#patternPos').value.split(',')
-            }, letterMessage.split(/[\s\n]/)
+            }, mess.split(' ')
         )
     }
-    return (letterMessage);
+    return (letterMessage.join(''));
 }
 
 
