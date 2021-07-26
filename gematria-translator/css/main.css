@@ -22,7 +22,7 @@ body {
 }
 
 #main {
-  background: url('../img/bg.png') center no-repeat;
+  background: url('../img/bg.png') center 37px no-repeat;
   min-height: 97vh;
 }
 
