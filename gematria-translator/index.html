@@ -2,66 +2,108 @@
 <html class="no-js" lang="">
 
 <head>
-  <meta charset="utf-8">
-  <title></title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <meta property="og:title" content="">
-  <meta property="og:type" content="">
-  <meta property="og:url" content="">
-  <meta property="og:image" content="">
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
 
-  <link rel="manifest" href="site.webmanifest">
-  <link rel="apple-touch-icon" href="icon.png">
-  <!-- Place favicon.ico in the root directory -->
+    <link rel="manifest" href="site.webmanifest">
 
-  <link rel="stylesheet" href="css/normalize.css">
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Megrim&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap" rel="stylesheet">
-  <meta name="theme-color" content="#999883">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Megrim&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap" rel="stylesheet">
+    <meta name="theme-color" content="#999883">
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
-  <div id="main">
+<div id="main">
     <nav class="navbar navbar-light bg-dark" style="background: #343943">
-      <span class="navbar-brand mb-0 h1" style="color: #eef; font-family: 'Megrim', cursive; font-size: 29px">Gematria Translator</span>
+        <span class="navbar-brand mb-0 h1" style="color: #eef; font-family: 'Megrim', cursive; font-size: 29px">Gematria Translator</span>
     </nav>
 
-    <div class="container" style="margin-top: 41px;">
-      <form style="max-width: 601px">
-        <div class="form-group">
-          <label for="method" style="color: #199999; font-size: 23px">Translate with Gematria Primus</label><br>
-          <select class="custom-select mr-sm-2" id="method" style="max-width: 37%; color: #333337; font-size: 19px;" onchange="methodChanged()">
-            <option value="rtt" selected>Runes to Text</option>
-            <option value="rtd">Runes to Decimal</option>
-            <option value="ttr">Text to Runes</option>
-            <option value="ttd">Text to Decimal</option>
-            <option value="dtr">Decimal to Runes</option>
-            <option value="dtt">Decimal to Text</option>
-          </select>
+    <div class="container" style="margin-top: 31px;">
+        <form>
+            <div class="form-group">
+                <label for="method" style="color: #199999; font-size: 23px">Translate with Gematria Primus</label><br>
+                <select class="custom-select mr-sm-2" id="method"
+                        style="max-width: 37%; color: #333337; font-size: 19px;" onchange="methodChanged()">
+                    <option value="rtt" selected>Runes to Text</option>
+                    <option value="rtd">Runes to Decimal</option>
+                    <option value="ttr">Text to Runes</option>
+                    <option value="ttd">Text to Decimal</option>
+                    <option value="dtr">Decimal to Runes</option>
+                    <option value="dtt">Decimal to Text</option>
+                    <option value="nope">Do Not Translate</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <select class="custom-select mr-sm-2" id="source"
+                        style="max-width: 37%; color: #333337; font-size: 19px; margin-bottom: 3px"
+                        onchange="sourceChanged()">
+                    <option value="full" selected>Full Liber Primus</option>
+                    <!-- <option value="chapter">Chapter</option> -->
+                    <option value="segment">Segment</option>
+                    <option value="page">Page</option>
+                    <option value="sentence">Sentence</option>
+                    <option value="word">Word</option>
+                    <option value="free">Free Text</option>
+                </select>
+                <input type="number" class="" id="sourceNum" placeholder="1 - 2" min="1" max="4789"
+                       style="max-width: 97px; color: #333337; font-size: 19px;" onchange="sourceNumChanged()">
+
+                <input type="checkbox" id="excludeLineBreaks" style="margin-left: 11px;">
+                <label for="excludeLineBreaks" style="color: #199999; font-size: 19px; margin-left: 7px;">Remove Line
+                    Breaks</label>
+            </div>
+            <div class="form-group" id="pattern-group">
+                <h4 for="method"
+                    style="color: #199999; font-size: 19px">Find
+                    Word Pattern</h4>
+                <input class="form-control" type="number" id="patternLen"
+                       placeholder="Word Length (e.g: DIVINITY = 8)"/>
+                <input class="form-control" type="text" id="patternPos"
+                       placeholder="Repeated Letter Positions (e.g: DIVINITY = 1,3,5)" style="margin-top: 7px;"/>
+            </div>
+            <textarea rows="7" cols="67" class="form-control" id="userInput"
+                      aria-describedby="runesHelp" style="color: #333337; font-size: 23px"></textarea>
+        </form>
+        <div class="form-group" style="margin-top: 11px">
+            <button id="translate" class="btn btn-primary hvr-grow"
+                    style="background: #298099; font-size: 19px; color: #eef; border-color: #298099 !important">
+                Translate
+            </button>
         </div>
 
-        <div class="form-group">
-          <input type="text" class="form-control" id="userInput" placeholder="ᚹᛖᛚᚳᚩᛗᛖ ᛈᛁᛚᚷᚱᛁᛗ..." aria-describedby="runesHelp" style="color: #333337; font-size: 23px">
+        <div id="resultContainer" style="margin-top: 37px; visibility: hidden">
+            <h4 style="color: #199999;">Result:</h4>
+            <textarea rows="5" cols="67" class="form-control" id="result"
+                      style="background: #eef; font-size: 23px"></textarea>
+            <h4 style="color: #199999; margin-top: 19px" id="matches" class="hidden">Pattern Matches:</h4>
+            <textarea rows="7" cols="67" class="form-control hidden" id="patternResult"
+                      style="background: #eef; font-size: 23px; font-family: monospace"></textarea>
+            <br><br><br>
+
         </div>
-      </form>
-      <button id="translate" class="btn btn-primary hvr-grow" style="background: #298099; font-size: 19px; color: #eef; border-color: #298099 !important">Translate</button>
-
-      <div id="resultContainer" style="margin-top: 37px; visibility: hidden">
-        <h4 style="color: #199999;">Result:</h4>
-        <pre id="result" style="background: #eef"></pre>
-      </div>
-
     </div>
-  </div>
+</div>
 
 
-  <script src="js/vendor/modernizr-3.11.2.min.js"></script>
-  <script src="js/plugins.js"></script>
-  <script src="js/primus.js"></script>
+<script src="js/vendor/modernizr-3.11.2.min.js"></script>
+<script src="js/plugins.js"></script>
+<script src="js/primus.js"></script>
 </body>
 
 </html>
