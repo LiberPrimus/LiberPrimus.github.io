@@ -23,8 +23,6 @@ window.onload = () => {
 
         } else {
             window.removeLineBreaks = false;
-            document.querySelector('#patternLen').classList.add('hidden');
-            document.querySelector('#patternPos').classList.add('hidden');
         }
     });
 
